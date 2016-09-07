@@ -50,7 +50,7 @@ void ReplaceStringInFile(char *argv[])
 	while (!inputFile.eof())
 	{
 		string rowFile = GetLineFile(inputFile);
-		if (rowFile.size() != 0)
+		if ((rowFile.size() != 0) && (searchString.length() != 0) && (replaceString.length() != 0))
 		{
 			ReplaceStringInRow(rowFile, searchString, replaceString);
 		}
@@ -63,12 +63,6 @@ void ReplaceStringInFile(char *argv[])
 
 int main(int argc, char *argv[])
 {
-	if ((argv[4] == "") || (argv[5] == ""))
-	{
-		cout << "The string can not be empty!\n";
-		return 1;
-	}
-
 	if (argc != 5)
 	{
 		cout << "Invalid number of parameters!\n";
