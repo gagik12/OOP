@@ -27,13 +27,13 @@ void ReplaceStringInRow(string & rowFile, string const& searchString, string con
 {
 	int positionReplacedWords = rowFile.find(searchString);
 	int startSearchPosition = positionReplacedWords;
-	int count = 0;
+	int countMissingChar = 0; 
 	while (positionReplacedWords != -1)
 	{
 		rowFile.replace(positionReplacedWords, searchString.length(), replaceString);
-		startSearchPosition += replaceString.length() + count;
+		startSearchPosition += replaceString.length() + countMissingChar;
 		positionReplacedWords = rowFile.find(searchString, startSearchPosition);
-		count = positionReplacedWords - startSearchPosition;
+		countMissingChar = positionReplacedWords - startSearchPosition;
 	}
 }
 
