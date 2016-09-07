@@ -26,14 +26,14 @@ ifstream OpenInputFile(string const& inputFileName)
 void ReplaceStringInRow(string & rowFile, string const& searchString, string const& replaceString)
 {
 	int positionReplacedWords = rowFile.find(searchString);
-	int searchPosition = positionReplacedWords;
+	int startSearchPosition = positionReplacedWords;
 	int count = 0;
 	while (positionReplacedWords != -1)
 	{
 		rowFile.replace(positionReplacedWords, searchString.length(), replaceString);
-		searchPosition += replaceString.length() + count;
-		positionReplacedWords = rowFile.find(searchString, searchPosition);
-		count = positionReplacedWords - searchPosition;
+		startSearchPosition += replaceString.length() + count;
+		positionReplacedWords = rowFile.find(searchString, startSearchPosition);
+		count = positionReplacedWords - startSearchPosition;
 	}
 }
 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 {
 	if ((argv[4] == "") || (argv[5] == ""))
 	{
-		cout << "Invalid number of parameters!\n";
+		cout << "The string can not be empty!\n";
 		return 1;
 	}
 
