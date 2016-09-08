@@ -45,5 +45,9 @@ int main(/*int argc, char *argv[]*/)
 		FILE *fileBmp = OpenFileInBinarMode(fileName);
 		cout << "OPEN" << endl;
 	}
+	else
+	{
+		cout << "The file extension must be BMP!";
+	}
 	return 0;
 }
