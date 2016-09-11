@@ -39,13 +39,22 @@ int StringToInt(string const& str, int const& radix, bool & wasError)
 	for (int i = 0; i != str.length(); i++)
 	{
 		digit = ConvertCharToInt(str[i]);
-		if ((digit != -1) && isOverflow(number, digit))
+		if (digit != -1)
 		{
-			number += digit * pow(radix, power);
-			power += -1;
+			if (isOverflow(number, digit))
+			{
+				number += digit * pow(radix, power);
+				power += -1;
+			}
+			else
+			{
+				cout << "Overflow!!!\n" ;
+				wasError = true;
+			}
 		}
 		else
 		{
+			cout << "Invalid character!!!\n";
 			wasError = true;
 		}
 	}
@@ -55,10 +64,10 @@ int StringToInt(string const& str, int const& radix, bool & wasError)
 void TranslationOfRadix(int & source, int & destination, std::string const& value)
 {
 	bool wasError = false;
-	StringToInt(value, source, wasError);
+	int decimalNumber = StringToInt(value, source, wasError);
 	if (!wasError)
 	{
-
+		cout << decimalNumber << endl;
 	}
 }
 
@@ -87,7 +96,7 @@ int main(int argc, char *argv[])
 	}*/
 	int source = atoi("10");
 	int destination = atoi("10");
-	std::string value = "2147483648";
+	std::string value = "2147483647";
 	TranslationOfRadix(source, destination, value);
 	return 0;
 }
