@@ -10,34 +10,45 @@ int ConvertCharToInt(char const& ch)
 	int digit = -1;
 	if ((ch >= '0') && (ch <= '9'))
 	{
-		digit = ch - 0x30; // Преобразование символа в число 
+		digit = ch - 0x30; 
 	}
 	else if ((ch >= 'A') && (ch <= 'Z'))
 	{
 		digit = int(ch) - int('A') + 10;
-	} 
+	}
 	return digit;
 }
 
-int StringToInt(const string& str, int radix, bool & wasError)
+bool isOverflow(int const& number, int const& digit)
 {
-	int number = 0;
-	int digit = 0;
-	int power = str.length() - 1; // Степень
-
+	
 	int maxIntDiv = INT_MAX / 10;
 	int maxIntMod = INT_MAX % 10;
 
+	int minIntDiv = INT_MIN / 10;
+	int minIntMod = INT_MIN % 10;
+
+	return (maxIntDiv > number / 10) || ((maxIntDiv == number / 10) && (maxIntMod >= digit));
+}
+
+int StringToInt(string const& str, int const& radix, bool & wasError)
+{
+	int number = 0;
+	int digit = 0;
+	int power = str.length() - 1; 
 	for (int i = 0; i != str.length(); i++)
 	{
 		digit = ConvertCharToInt(str[i]);
-		if (digit != -1)
+		if ((digit != -1) && isOverflow(number, digit))
 		{
 			number += digit * pow(radix, power);
 			power += -1;
 		}
+		else
+		{
+			wasError = true;
+		}
 	}
-	cout << number;
 	return number;
 }
 
@@ -45,7 +56,10 @@ void TranslationOfRadix(int & source, int & destination, std::string const& valu
 {
 	bool wasError = false;
 	StringToInt(value, source, wasError);
+	if (!wasError)
+	{
 
+	}
 }
 
 bool PresenceOfEmptyData(char *argv[])
@@ -71,9 +85,9 @@ int main(int argc, char *argv[])
 		cout << "There are empty data!!!" ;
 		return 1;
 	}*/
-	int source = atoi("16");
+	int source = atoi("10");
 	int destination = atoi("10");
-	std::string value = "1F";
+	std::string value = "2147483648";
 	TranslationOfRadix(source, destination, value);
 	return 0;
 }
