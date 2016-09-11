@@ -23,16 +23,21 @@ int StringToInt(const string& str, int radix, bool & wasError)
 {
 	int number = 0;
 	int digit = 0;
+	int power = str.length() - 1; // Степень
+
 	int maxIntDiv = INT_MAX / 10;
 	int maxIntMod = INT_MAX % 10;
+
 	for (int i = 0; i != str.length(); i++)
 	{
 		digit = ConvertCharToInt(str[i]);
 		if (digit != -1)
 		{
-			cout << digit;
+			number += digit * pow(radix, power);
+			power += -1;
 		}
 	}
+	cout << number;
 	return number;
 }
 
