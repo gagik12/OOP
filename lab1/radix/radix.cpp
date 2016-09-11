@@ -58,6 +58,7 @@ int StringToInt(string const& str, int const& radix, bool & wasError)
 			wasError = true;
 		}
 	}
+	cout << number << endl;
 	return number;
 }
 
@@ -65,10 +66,18 @@ void TranslationOfRadix(int & source, int & destination, std::string const& valu
 {
 	bool wasError = false;
 	int decimalNumber = StringToInt(value, source, wasError);
+	int t = 0;
+	cout << decimalNumber << endl;
 	if (!wasError)
 	{
-		cout << decimalNumber << endl;
+		while (decimalNumber)
+		{
+			t = decimalNumber % destination;
+			cout << t;
+			decimalNumber = decimalNumber / destination;
+		}
 	}
+
 }
 
 bool PresenceOfEmptyData(char *argv[])
@@ -94,9 +103,9 @@ int main(int argc, char *argv[])
 		cout << "There are empty data!!!" ;
 		return 1;
 	}*/
-	int source = atoi("10");
-	int destination = atoi("10");
-	std::string value = "2147483647";
+	int source = atoi("16");
+	int destination = atoi("2"); //
+	std::string value = "1F";
 	TranslationOfRadix(source, destination, value);
 	return 0;
 }
