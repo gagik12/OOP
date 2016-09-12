@@ -17,6 +17,10 @@ int ConvertCharToInt(char const& ch)
 	{
 		digit = int(ch) - int('A') + 10;
 	}
+	else if ((ch >= 'a') && (ch <= 'z'))
+	{
+		digit = int(ch) - int('a') + 10;
+	}
 	return digit;
 }
 
@@ -45,7 +49,7 @@ int StringToInt(string const& str, int const& radix, bool & wasError, bool &isMi
 		{
 			if (isOverflow(number, digit, isMinus))
 			{
-				number += digit * pow(radix, power);
+				number += digit * static_cast<int>(pow(radix, power));
 				power += -1;
 			}
 			else
@@ -77,8 +81,12 @@ string TranslationOfRadix(int & source, int & destination, std::string const& va
 {
 	bool wasError = false;
 	bool isMinus = false;
-	int decimalNumber = StringToInt(value, source, wasError, isMinus);
 	string result = "";
+	int decimalNumber = StringToInt(value, source, wasError, isMinus);
+	if (decimalNumber == 0)
+	{
+		result += "0";
+	}
 	if (!wasError)
 	{
 		int t = 0;
@@ -97,10 +105,10 @@ string TranslationOfRadix(int & source, int & destination, std::string const& va
 		}
 
 		result = ReverseString(result);
-	}
-	if (isMinus)
-	{
-		result = "-" + result;
+		if (isMinus && (result != "0"))
+		{
+			result = "-" + result;
+		}
 	}
 	return result;
 }
