@@ -2,7 +2,7 @@ set PROGRAM="..\Debug\replace.exe"
 
 rem Replacement of empty data.
 %PROGRAM% input.txt output1.txt "" ""
-if !ERRORLEVEL 1 goto err
+if ERRORLEVEL 1 goto err
 
 rem Search string empty.
 %PROGRAM% input.txt output2.txt "$fbbn682545964312312312345" ""
