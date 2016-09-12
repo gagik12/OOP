@@ -59,33 +59,33 @@ int StringToInt(string const& str, int const& radix, bool & wasError)
 			wasError = true;
 		}
 	}
-	//cout << number << endl;
 	return number;
 }
 
-/*string IntToString(int n, int radix, bool & wasError)
+string IntToString(int n, int radix, bool & wasError)
 {
 	if (n >= 10)
 	{
-		return int(ch) - int('A') + 10;
+		//return int(ch) - int('A') + 10;
+		cout << char('A' + (n - 10));
 	}
 	return "";
-}*/
+}
 
 string TranslationOfRadix(int & source, int & destination, std::string const& value)
 {
 	bool wasError = false;
 	int decimalNumber = StringToInt(value, source, wasError);
 	string result = "";
-	int t = 0;
 	if (!wasError)
 	{
-		string convert = "";
+		int t = 0;
 		while (decimalNumber)
 		{
 			t = decimalNumber % destination;
 			if (destination > 10)
 			{
+				IntToString(t, destination, wasError);
 				//cout << t;
 				//convert += IntToString(t, destination, wasError);
 			}
