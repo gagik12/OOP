@@ -20,29 +20,30 @@ int ConvertCharToInt(char const& ch)
 	return digit;
 }
 
-bool isOverflow(int const& number, int const& digit)
+bool isOverflow(int & number, int const& digit, bool const& isMinus)
 {
-	
 	int maxIntDiv = INT_MAX / 10;
 	int maxIntMod = INT_MAX % 10;
-
-	int minIntDiv = INT_MIN / 10;
-	int minIntMod = INT_MIN % 10;
-
 	return (maxIntDiv > number / 10) || ((maxIntDiv == number / 10) && (maxIntMod >= digit));
 }
 
-int StringToInt(string const& str, int const& radix, bool & wasError)
+int StringToInt(string const& str, int const& radix, bool & wasError, bool &isMinus)
 {
 	int number = 0;
 	int digit = 0;
-	int power = str.length() - 1; 
+	int power = str.length() - 1;
 	for (int i = 0; i != str.length(); i++)
 	{
+		if (str[i] == '-')
+		{
+			power = str.length() - 2;
+			isMinus = true;
+			continue;
+		}
 		digit = ConvertCharToInt(str[i]);
 		if (digit != -1)
 		{
-			if (isOverflow(number, digit))
+			if (isOverflow(number, digit, isMinus))
 			{
 				number += digit * pow(radix, power);
 				power += -1;
@@ -75,7 +76,8 @@ string ReverseString(string const& result)
 string TranslationOfRadix(int & source, int & destination, std::string const& value)
 {
 	bool wasError = false;
-	int decimalNumber = StringToInt(value, source, wasError);
+	bool isMinus = false;
+	int decimalNumber = StringToInt(value, source, wasError, isMinus);
 	string result = "";
 	if (!wasError)
 	{
@@ -93,7 +95,12 @@ string TranslationOfRadix(int & source, int & destination, std::string const& va
 			}
 			decimalNumber = decimalNumber / destination;
 		}
+
 		result = ReverseString(result);
+	}
+	if (isMinus)
+	{
+		result = "-" + result;
 	}
 	return result;
 }
