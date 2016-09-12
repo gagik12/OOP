@@ -62,14 +62,14 @@ int StringToInt(string const& str, int const& radix, bool & wasError)
 	return number;
 }
 
-string IntToString(int n, int radix, bool & wasError)
+string ReverseString(string const& result)
 {
-	if (n >= 10)
+	string conversely = "";
+	for (int i = result.length() - 1; i >= 0; --i)
 	{
-		//return int(ch) - int('A') + 10;
-		cout << char('A' + (n - 10));
+		conversely += result[i];
 	}
-	return "";
+	return conversely;
 }
 
 string TranslationOfRadix(int & source, int & destination, std::string const& value)
@@ -83,11 +83,9 @@ string TranslationOfRadix(int & source, int & destination, std::string const& va
 		while (decimalNumber)
 		{
 			t = decimalNumber % destination;
-			if (destination > 10)
+			if (t >= 10)
 			{
-				IntToString(t, destination, wasError);
-				//cout << t;
-				//convert += IntToString(t, destination, wasError);
+				result += char('A' + (t - 10));
 			}
 			else
 			{
@@ -95,6 +93,7 @@ string TranslationOfRadix(int & source, int & destination, std::string const& va
 			}
 			decimalNumber = decimalNumber / destination;
 		}
+		result = ReverseString(result);
 	}
 	return result;
 }
