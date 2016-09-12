@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <iostream>
+#include <string> 
 
 using namespace std;
 
@@ -58,26 +59,44 @@ int StringToInt(string const& str, int const& radix, bool & wasError)
 			wasError = true;
 		}
 	}
-	cout << number << endl;
+	//cout << number << endl;
 	return number;
 }
 
-void TranslationOfRadix(int & source, int & destination, std::string const& value)
+/*string IntToString(int n, int radix, bool & wasError)
+{
+	if (n >= 10)
+	{
+		return int(ch) - int('A') + 10;
+	}
+	return "";
+}*/
+
+string TranslationOfRadix(int & source, int & destination, std::string const& value)
 {
 	bool wasError = false;
 	int decimalNumber = StringToInt(value, source, wasError);
+	string result = "";
 	int t = 0;
-	cout << decimalNumber << endl;
 	if (!wasError)
 	{
+		string convert = "";
 		while (decimalNumber)
 		{
 			t = decimalNumber % destination;
-			cout << t;
+			if (destination > 10)
+			{
+				//cout << t;
+				//convert += IntToString(t, destination, wasError);
+			}
+			else
+			{
+				result += to_string(t);
+			}
 			decimalNumber = decimalNumber / destination;
 		}
 	}
-
+	return result;
 }
 
 bool PresenceOfEmptyData(char *argv[])
@@ -100,9 +119,6 @@ int main(int argc, char *argv[])
 		cout << "There are empty data!!!" ;
 		return 1;
 	}
-	/*int source = atoi("16");
-	int destination = atoi("2"); 
-	std::string value = "1F";*/
-	TranslationOfRadix(source, destination, value);
+	cout << TranslationOfRadix(source, destination, value);
 	return 0; 
 }
