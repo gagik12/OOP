@@ -2,8 +2,6 @@
 
 using namespace std;
 
-static const string FILE_PATH = "../replace/file/";
-
 string GetLineFile(ifstream & inputFile)
 {
 	string lineFile;
@@ -14,7 +12,7 @@ string GetLineFile(ifstream & inputFile)
 ifstream OpenInputFile(string const& inputFileName)
 {
 	ifstream inputFile;
-	inputFile.open(FILE_PATH + inputFileName);
+	inputFile.open(inputFileName);
 	if (!inputFile.is_open())
 	{
 		cout << "Error opening file!\n";
@@ -23,11 +21,12 @@ ifstream OpenInputFile(string const& inputFileName)
 	return inputFile;
 }
 
+
 void ReplaceStringInRow(string & rowFile, string const& searchString, string const& replaceString)
 {
 	int positionReplacedWords = rowFile.find(searchString);
 	int startSearchPosition = positionReplacedWords;
-	int countMissingChar = 0; 
+	int countMissingChar = 0;
 	while (positionReplacedWords != -1)
 	{
 		rowFile.replace(positionReplacedWords, searchString.length(), replaceString);
@@ -37,7 +36,7 @@ void ReplaceStringInRow(string & rowFile, string const& searchString, string con
 	}
 }
 
-bool ÑheckForEmptyData(string const& rowFile, string const& searchString, string const& replaceString)
+bool CheckForEmptyData(string const& rowFile, string const& searchString, string const& replaceString)
 {
 	return (rowFile.size() != 0) && (searchString.length() != 0) && (replaceString.length() != 0);
 }
@@ -50,12 +49,12 @@ void ReplaceStringInFile(char *argv[])
 	string replaceString = argv[4];
 
 	ifstream inputFile = OpenInputFile(inputFileName);
-	ofstream outputFile(FILE_PATH + outputFileName);
+	ofstream outputFile(outputFileName);
 
 	while (!inputFile.eof())
 	{
 		string rowFile = GetLineFile(inputFile);
-		if (ÑheckForEmptyData(rowFile, searchString, replaceString))
+		if (CheckForEmptyData(rowFile, searchString, replaceString))
 		{
 			ReplaceStringInRow(rowFile, searchString, replaceString);
 		}
@@ -78,6 +77,5 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	ReplaceStringInFile(argv);
-    return 0;
+	return 0;
 }
-
