@@ -4,8 +4,6 @@
 
 using namespace std;
 
-static const string FILE_PATH = "../replace/file/";
-
 int ConvertCharToInt(char const& ch)
 {
 	int digit = -1;
