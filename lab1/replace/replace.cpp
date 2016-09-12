@@ -37,7 +37,7 @@ void ReplaceStringInRow(string & rowFile, string const& searchString, string con
 	}
 }
 
-bool ÑheckForEmptyData(string const& rowFile, string const& searchString, string const& replaceString)
+bool Ð¡heckForEmptyData(string const& rowFile, string const& searchString, string const& replaceString)
 {
 	return (rowFile.size() != 0) && (searchString.length() != 0) && (replaceString.length() != 0);
 }
@@ -55,7 +55,7 @@ void ReplaceStringInFile(char *argv[])
 	while (!inputFile.eof())
 	{
 		string rowFile = GetLineFile(inputFile);
-		if (ÑheckForEmptyData(rowFile, searchString, replaceString))
+		if (Ð¡heckForEmptyData(rowFile, searchString, replaceString))
 		{
 			ReplaceStringInRow(rowFile, searchString, replaceString);
 		}
