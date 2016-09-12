@@ -87,10 +87,7 @@ bool PresenceOfEmptyData(char *argv[])
 
 int main(int argc, char *argv[])
 {
-	//std::cout << INT_MAX << std::endl;
-	//int a = 2147483647;
-	//cout << a << endl;
-	/*if (argc != 4)
+	if (argc != 4)
 	{
 		cout << "Invalid number of parameters!\n";
 		return 1;
@@ -102,10 +99,10 @@ int main(int argc, char *argv[])
 	{
 		cout << "There are empty data!!!" ;
 		return 1;
-	}*/
-	int source = atoi("16");
-	int destination = atoi("2"); //
-	std::string value = "1F";
+	}
+	/*int source = atoi("16");
+	int destination = atoi("2"); 
+	std::string value = "1F";*/
 	TranslationOfRadix(source, destination, value);
-	return 0;
+	return 0; 
 }
