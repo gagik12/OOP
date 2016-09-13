@@ -9,16 +9,21 @@ string GetLineFile(ifstream & inputFile)
 	return lineFile;
 }
 
-ifstream OpenInputFile(string const& inputFileName)
+bool CheckFiles(ifstream &inputFile, ofstream &outputFile)
 {
-	ifstream inputFile;
-	inputFile.open(inputFileName);
 	if (!inputFile.is_open())
 	{
-		cout << "Error opening file!\n";
-		exit(1);
+		cout << "The file is not open for reading." << endl;
+		return false;
 	}
-	return inputFile;
+
+	if (!outputFile.is_open())
+	{
+		cout << "File not opened for writing." << endl;
+		return false;
+	}
+
+	return true;
 }
 
 
@@ -48,8 +53,9 @@ void ReplaceStringInFile(char *argv[])
 	string searchString = argv[3];
 	string replaceString = argv[4];
 
-	ifstream inputFile = OpenInputFile(inputFileName);
+	ifstream inputFile(inputFileName);
 	ofstream outputFile(outputFileName);
+	CheckFiles(inputFile, outputFile);
 
 	while (!inputFile.eof())
 	{
