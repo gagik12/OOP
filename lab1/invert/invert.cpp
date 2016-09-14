@@ -8,7 +8,7 @@ using namespace std;
 
 static const int MAX_SIZE = 3;
 
-void �heckFile(ifstream & file)
+void CheckFile(ifstream & file)
 {
 	if (!file.is_open())
 	{
@@ -40,9 +40,22 @@ double GetDeterminantMatrix2x2(Matrix2x2 &matrix2x2)
 	return (matrix2x2[0][0] * matrix2x2[1][1]) - (matrix2x2[1][0] * matrix2x2[0][1]);
 }
 
-void Minor(Matrix3x3 const& inputMatrix3x3, Matrix2x2 & minorMatrix, int & row, int & column)
+void OutputMatrix(Matrix3x3 &matrixMinors3x3, double const& determinantMatrix3x3)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			printf("%.3f  ", matrixMinors3x3[j][i] / determinantMatrix3x3);
+		}
+		cout << "\n";
+	}
+}
+
+double Minor(Matrix3x3 const& matrix, int & row, int & column)
 {
 	int minorIndexRow = 0, minorIndexColumn = 0;
+	Matrix2x2 matrixMinor;
 	for (int k = 0; k < 3; k++)
 	{
 		if (row == k)
@@ -55,52 +68,49 @@ void Minor(Matrix3x3 const& inputMatrix3x3, Matrix2x2 & minorMatrix, int & row, 
 			{
 				continue;
 			}
-			minorMatrix[minorIndexRow][minorIndexColumn] = inputMatrix3x3[k][l];
-			//cout << minorMatrix[minorIndexRow][minorIndexColumn] << endl;
+			matrixMinor[minorIndexRow][minorIndexColumn] = matrix[k][l];
 			minorIndexRow++;
 		}
 		minorIndexRow = 0;
 		minorIndexColumn++;
 	}
-}
 
-void TransformMatrixInMinors(Matrix3x3 const& inputMatrix3x3, Matrix3x3 &matrixMinors3x3)
+	return pow(-1, (row + column)) * GetDeterminantMatrix2x2(matrixMinor);
+}
+//Matrix3x3 *GetTransposeMatrix(); ВОПРОС
+
+void InverseMatrix(Matrix3x3 const& inputMatrix3x3, Matrix3x3 &inverseMatrix)
 {
-	int row, column;
-	double determinant;
-	Matrix2x2 minorMatrix;
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			row = i;
-			column = j;
-			Minor(inputMatrix3x3, minorMatrix, row, column);
-			determinant = GetDeterminantMatrix2x2(minorMatrix);
-			matrixMinors3x3[i][j] = determinant;
-			cout << matrixMinors3x3[i][j] << endl;
+			inverseMatrix[i][j] = Minor(inputMatrix3x3, i, j);
 		}
 	}
 }
+
 int main(int argc, char* argv[])
 {
 	if (argc == 2)
 	{
 		string fileName = argv[1];
 		ifstream inputFile(fileName);
-		�heckFile(inputFile);
+		CheckFile(inputFile);
 
 		Matrix3x3 matrix3x3;
 		ReadMatrix(inputFile, matrix3x3);
 		double determinant = GetDeterminantMatrix3x3(matrix3x3);
 		if (determinant == 0)
 		{
-			cout << "Inverse matrix does not exist"; 
+			cout << "Inverse matrix does not exist";
 			return 1;
 		}
 
-		Matrix3x3 matrixMinors3x3;
-		TransformMatrixInMinors(matrix3x3, matrixMinors3x3);
+		Matrix3x3 inverseMatrix3x3;
+
+		InverseMatrix(matrix3x3, inverseMatrix3x3);
+		OutputMatrix(inverseMatrix3x3, determinant);
 	}
 	else
 	{
