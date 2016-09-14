@@ -6,7 +6,7 @@ typedef double Matrix2x2[2][2];
 
 using namespace std;
 
-static const int MAX_SIZE = 3;
+static const int MAX_MATRIX_SIZE = 3;
 
 void CheckFile(ifstream & file)
 {
@@ -19,9 +19,9 @@ void CheckFile(ifstream & file)
 
 void ReadMatrix(ifstream & inputFile, Matrix3x3 &matrix3x3)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < MAX_MATRIX_SIZE; i++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < MAX_MATRIX_SIZE; j++)
 		{
 			inputFile >> matrix3x3[i][j];
 		}
@@ -42,9 +42,9 @@ double GetDeterminantMatrix2x2(Matrix2x2 &matrix2x2)
 
 void OutputMatrix(Matrix3x3 &matrixMinors3x3, double const& determinantMatrix3x3)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < MAX_MATRIX_SIZE; i++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < MAX_MATRIX_SIZE; j++)
 		{
 			printf("%.3f  ", matrixMinors3x3[j][i] / determinantMatrix3x3);
 		}
@@ -56,13 +56,13 @@ double Minor(Matrix3x3 const& matrix, int & row, int & column)
 {
 	int minorIndexRow = 0, minorIndexColumn = 0;
 	Matrix2x2 matrixMinor;
-	for (int k = 0; k < 3; k++)
+	for (int k = 0; k < MAX_MATRIX_SIZE; k++)
 	{
 		if (row == k)
 		{
 			continue;
 		}
-		for (int l = 0; l < 3; l++)
+		for (int l = 0; l < MAX_MATRIX_SIZE; l++)
 		{
 			if (column == l)
 			{
@@ -81,9 +81,9 @@ double Minor(Matrix3x3 const& matrix, int & row, int & column)
 
 void InverseMatrix(Matrix3x3 const& inputMatrix3x3, Matrix3x3 &inverseMatrix)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < MAX_MATRIX_SIZE; i++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < MAX_MATRIX_SIZE; j++)
 		{
 			inverseMatrix[i][j] = Minor(inputMatrix3x3, i, j);
 		}
