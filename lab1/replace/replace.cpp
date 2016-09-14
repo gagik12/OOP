@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <boost/algorithm/string/replace.hpp>
 
 using namespace std;
 
@@ -26,24 +27,26 @@ bool CheckFiles(ifstream &inputFile, ofstream &outputFile)
 	return true;
 }
 
-
-void ReplaceStringInRow(string & rowFile, string const& searchString, string const& replaceString)
+void ReplaceStringInRow(string & src, string const& search, string const& replace)
 {
-	size_t positionReplacedWords = rowFile.find(searchString);
+	boost::replace_all(src, search, replace);
+	cout << src << endl;
+	/*
+	size_t positionReplacedWords = src.find(search);
 	size_t startSearchPosition = positionReplacedWords;
 	int countMissingChar = 0;
 	while (positionReplacedWords != -1)
 	{
-		rowFile.replace(positionReplacedWords, searchString.length(), replaceString);
-		startSearchPosition += replaceString.length() + countMissingChar;
-		positionReplacedWords = rowFile.find(searchString, startSearchPosition);
+		src.replace(positionReplacedWords, search.length(), replace);
+		startSearchPosition += replace.length() + countMissingChar;
+		positionReplacedWords = src.find(search, startSearchPosition);
 		countMissingChar = positionReplacedWords - startSearchPosition;
-	}
+	}*/
 }
 
-bool CheckForEmptyData(string const& rowFile, string const& searchString, string const& replaceString)
+bool CheckForEmptyData(string const& rowString, string const& searchString, string const& replaceString)
 {
-	return (rowFile.size() != 0) && (searchString.length() != 0) && (replaceString.length() != 0);
+	return (rowString.size() != 0) && (searchString.length() != 0) && (replaceString.length() != 0);
 }
 
 void ReplaceStringInFile(char *argv[])
