@@ -29,8 +29,8 @@ bool CheckFiles(ifstream &inputFile, ofstream &outputFile)
 
 void ReplaceStringInRow(string & rowFile, string const& searchString, string const& replaceString)
 {
-	int positionReplacedWords = rowFile.find(searchString);
-	int startSearchPosition = positionReplacedWords;
+	size_t positionReplacedWords = rowFile.find(searchString);
+	size_t startSearchPosition = positionReplacedWords;
 	int countMissingChar = 0;
 	while (positionReplacedWords != -1)
 	{
