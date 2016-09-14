@@ -17,13 +17,14 @@ void CheckFile(ifstream & file)
 	}
 }
 
-void ReadMatrix(ifstream & inputFile, Matrix3x3 &matrix3x3)
+void ReadMatrix(ifstream & inputFile, Matrix3x3 &matrix3x3, bool & isGoodMatrix)
 {
+	double digit;
 	for (int i = 0; i < MAX_MATRIX_SIZE; i++)
 	{
 		for (int j = 0; j < MAX_MATRIX_SIZE; j++)
 		{
-			inputFile >> matrix3x3[i][j];
+			inputFile >> digit;
 		}
 	}
 }
@@ -99,18 +100,23 @@ int main(int argc, char* argv[])
 		CheckFile(inputFile);
 
 		Matrix3x3 matrix3x3;
-		ReadMatrix(inputFile, matrix3x3);
-		double determinant = GetDeterminantMatrix3x3(matrix3x3);
-		if (determinant == 0)
+
+		bool isGoodMatrix = true;
+		ReadMatrix(inputFile, matrix3x3, isGoodMatrix);
+		if (isGoodMatrix)
 		{
-			cout << "Inverse matrix does not exist";
-			return 1;
+			double determinant = GetDeterminantMatrix3x3(matrix3x3);
+			if (determinant == 0)
+			{
+				cout << "Inverse matrix does not exist";
+				return 1;
+			}
+
+			Matrix3x3 inverseMatrix3x3;
+
+			InverseMatrix(matrix3x3, inverseMatrix3x3);
+			OutputMatrix(inverseMatrix3x3, determinant);
 		}
-
-		Matrix3x3 inverseMatrix3x3;
-
-		InverseMatrix(matrix3x3, inverseMatrix3x3);
-		OutputMatrix(inverseMatrix3x3, determinant);
 	}
 	else
 	{
