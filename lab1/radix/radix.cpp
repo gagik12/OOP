@@ -1,136 +1,194 @@
 #include "stdafx.h"
 #include <iostream>
-#include <string> 
+#include <string>
 
 using namespace std;
+
+static const int MAX_RADIX = 35;
+static const int MIN_RADIX = 2;
+static const int DECIMAL_RADIX = 10;
+
+enum MathErr 
+{ 
+	ME_OVERFLOW, 
+	ME_UNDERFLOW
+};
+
+bool CheckIntervalRadix(int const& source, int const& destination)
+{
+	return (source >= MIN_RADIX) && (source <= MAX_RADIX) && (destination >= MIN_RADIX) && (destination <= MAX_RADIX);
+}
 
 int ConvertCharToInt(char const& ch)
 {
 	int digit = -1;
 	if ((ch >= '0') && (ch <= '9'))
 	{
-		digit = ch - 0x30; 
+		digit = ch - 0x30;
 	}
 	else if ((ch >= 'A') && (ch <= 'Z'))
 	{
-		digit = int(ch) - int('A') + 10;
+		digit = int(ch) - int('A') + DECIMAL_RADIX;
 	}
 	else if ((ch >= 'a') && (ch <= 'z'))
 	{
-		digit = int(ch) - int('a') + 10;
+		digit = int(ch) - int('a') + DECIMAL_RADIX;
 	}
 	return digit;
 }
 
-bool isOverflow(int & number, int const& digit, bool const& isMinus)
+void ChekDigit(int & digit, int const& radix, bool & wasError)
 {
-	int maxIntDiv = INT_MAX / 10;
-	int maxIntMod = INT_MAX % 10;
-	return (maxIntDiv > number / 10) || ((maxIntDiv == number / 10) && (maxIntMod >= digit));
+	if (digit > radix)
+	{
+		cout << "The number can not be greater than radix!!!\n";
+		wasError = true;
+	}
+	if (digit == -1)
+	{
+		cout << "Incorrect character in value!!!\n";
+		wasError = true;
+	}
 }
 
-int StringToInt(string const& str, int const& radix, bool & wasError, bool &isMinus)
+string ReverseString(string const& result)
+{
+	string reverseString = "";
+	for (int i = result.length() - 1; i >= 0; --i)
+	{
+		reverseString += result[i];
+	}
+	return reverseString;
+}
+
+string IntToString(int & decimalNumber, int & destination, bool & isMinus)
+{
+	string result = "";
+	if (decimalNumber == 0)
+	{
+		result += "0";
+	}
+	while (decimalNumber)
+	{
+		int number = decimalNumber % destination;
+		if (number >= DECIMAL_RADIX)
+		{
+			result += char('A' + (number - DECIMAL_RADIX));
+		}
+		else
+		{
+			result += to_string(number);
+		}
+		decimalNumber = decimalNumber / destination;
+	}
+
+	result = ReverseString(result);
+	if (isMinus && (result != "0"))
+	{
+		result = "-" + result;
+	}
+
+	return result;
+}
+
+/*int OverflowMultiplication(int pow, int digit, bool & wasError, bool & isMinus)
+{
+	if (pow > INT_MAX / digit)
+	{
+		wasError = true;
+		throw ME_OVERFLOW;
+		cout << "Overflow multiplication\n";
+		return 0;
+	}
+	return digit * pow;
+}
+
+int OverflowAdd(int multiplication, int number, bool & wasError, bool & isMinus)
+{
+	if (multiplication > INT_MAX - number)
+	{
+		wasError = true;
+		cout << "Overflow add!!!\n";
+		return 0;
+	}
+	return number + multiplication;
+}*/
+
+int Power(int radix, int power)
+{
+	int resulPower = 1;
+	for (int i = 1; i <= power; ++i)
+	{
+		resulPower *= radix;
+	}
+	return resulPower;
+}
+
+int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, bool &isMinus)
 {
 	int number = 0;
 	int digit = 0;
+	int multiplication = 0;
 	int power = str.length() - 1;
 	for (int i = 0; i != str.length(); i++)
 	{
-		if (str[i] == '-')
+		if ((i == 0) && (str[i] == '-'))
 		{
 			power = str.length() - 2;
 			isMinus = true;
 			continue;
 		}
 		digit = ConvertCharToInt(str[i]);
-		if (digit != -1)
+		ChekDigit(digit, radix, wasError);
+		if (wasError)
 		{
-			if (isOverflow(number, digit, isMinus))
-			{
-				number += digit * static_cast<int>(pow(radix, power));
-				power += -1;
-			}
-			else
-			{
-				cout << "Overflow!!!\n" ;
-				wasError = true;
-			}
+			return 1;
 		}
-		else
-		{
-			cout << "Invalid character!!!\n";
-			wasError = true;
-		}
+		number += Power(radix, power) * digit;
+		power -= 1;
 	}
+	
 	return number;
-}
-
-string ReverseString(string const& result)
-{
-	string conversely = "";
-	for (int i = result.length() - 1; i >= 0; --i)
-	{
-		conversely += result[i];
-	}
-	return conversely;
-}
-
-string TranslationOfRadix(int & source, int & destination, std::string const& value)
-{
-	bool wasError = false;
-	bool isMinus = false;
-	string result = "";
-	int decimalNumber = StringToInt(value, source, wasError, isMinus);
-	if (decimalNumber == 0)
-	{
-		result += "0";
-	}
-	if (!wasError)
-	{
-		int t = 0;
-		while (decimalNumber)
-		{
-			t = decimalNumber % destination;
-			if (t >= 10)
-			{
-				result += char('A' + (t - 10));
-			}
-			else
-			{
-				result += to_string(t);
-			}
-			decimalNumber = decimalNumber / destination;
-		}
-
-		result = ReverseString(result);
-		if (isMinus && (result != "0"))
-		{
-			result = "-" + result;
-		}
-	}
-	return result;
-}
-
-bool PresenceOfEmptyData(char *argv[])
-{
-	return (argv[1] == "") && (argv[2] == "") && (argv[3] == "");
 }
 
 int main(int argc, char *argv[])
 {
 	if (argc != 4)
 	{
-		cout << "Invalid number of parameters!\n";
+		cout << "Invalid arguments count\n"
+			<< "Usage: radix.exe <source notation> <destination notation> <value>\n";
 		return 1;
 	}
-	int source = atoi(argv[1]);
-	int destination = atoi(argv[2]);
-	std::string value = argv[3];
-	if (PresenceOfEmptyData(argv))
+
+	int source, destination;
+	string value;
+	try
 	{
-		cout << "There are empty data!!!" ;
+		source = stoi(argv[1]);
+		destination = stoi(argv[2]);
+		value = argv[3];
+	}
+	catch (exception const& e)
+	{
+		cout << "Error: " << e.what() << endl;
 		return 1;
 	}
-	cout << TranslationOfRadix(source, destination, value);
-	return 0; 
+
+	if (!CheckIntervalRadix(source, destination))
+	{
+		cout << "Interval radix [2, 35]!";
+		return 1;
+	}
+	else
+	{
+		bool wasError = false, isMinus = false;
+		int decimalNumber = ConvertToDecimalRadix(value, source, wasError, isMinus);
+		if (!wasError)
+		{
+			string outputNumber = IntToString(decimalNumber, destination, isMinus);
+			cout << outputNumber << "\n";
+		}
+	}
+    return 0;
 }
+
