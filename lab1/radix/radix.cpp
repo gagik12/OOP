@@ -4,7 +4,7 @@
 
 using namespace std;
 
-static const int MAX_RADIX = 35;
+static const int MAX_RADIX = 36;
 static const int MIN_RADIX = 2;
 static const int DECIMAL_RADIX = 10;
 
@@ -140,7 +140,7 @@ int Add(int multiplication, int number, bool isMinus)
 
 int Multiplication(int multiplier1, int multiplier2, bool isMinus)
 {
-	if ((!isMinus) && (multiplier1 > INT_MAX / multiplier2))
+	if ((!isMinus) && (multiplier2 > INT_MAX / multiplier1))
 	{
 		throw ME_OVERFLOW_MULTIPLICATION;
 	}
@@ -231,7 +231,7 @@ int main(int argc, char *argv[])
 
 	if (!CheckIntervalRadix(source, destination))
 	{
-		cout << "Interval radix [2, 35]!";
+		cout << "Interval radix [2, 36]!";
 		return 1;
 	}
 	else
@@ -241,7 +241,7 @@ int main(int argc, char *argv[])
 		if (!wasError)
 		{
 			string outputNumber = IntToString(decimalNumber, destination, isMinus);
-			cout << outputNumber << "\n";
+			cout << outputNumber;
 		}
 	}
     return 0;
