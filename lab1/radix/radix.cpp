@@ -129,8 +129,17 @@ void PrintMathErr(MathErr& mathErr)
 		std::cout << "ME_UNDERFLOW_MULTIPLICATION\n";
 		break;
 	}
-
 }
+
+int Add(int multiplication, int number)
+{
+	if ((multiplication > 0) && (multiplication > INT_MAX - number))
+	{
+		throw ME_OVERFLOW_ADD;
+	}
+	return multiplication + number;
+}
+
 int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, bool &isMinus)
 {
 	int number = 0;
@@ -156,6 +165,8 @@ int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, 
 		try
 		{
 			powerResult = Power(radix, power);
+			multiplication = Multiplication(powerResult, digit);
+			number += Add(multiplication, number);
 		}
 		catch (MathErr& mathErr)
 		{
@@ -163,7 +174,7 @@ int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, 
 			return 1;
 		}
 
-		number += powerResult * digit;
+		//number += powerResult * digit;
 		power -= 1;
 	}
 	
