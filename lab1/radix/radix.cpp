@@ -63,6 +63,20 @@ string ReverseString(string const& result)
 	return reverseString;
 }
 
+void TransferNumbers(int decimalNumber, int destination, string & result)
+{
+	int number = decimalNumber % destination;
+	if (number >= DECIMAL_RADIX)
+	{
+		result += char('A' + (number - DECIMAL_RADIX));
+	}
+	else
+	{
+		result += to_string(number);
+	}
+	decimalNumber = decimalNumber / destination;
+}
+
 string IntToString(int & decimalNumber, int & destination, bool & isMinus)
 {
 	string result = "";
@@ -72,16 +86,7 @@ string IntToString(int & decimalNumber, int & destination, bool & isMinus)
 	}
 	while (decimalNumber)
 	{
-		int number = decimalNumber % destination;
-		if (number >= DECIMAL_RADIX)
-		{
-			result += char('A' + (number - DECIMAL_RADIX));
-		}
-		else
-		{
-			result += to_string(number);
-		}
-		decimalNumber = decimalNumber / destination;
+		TransferNumbers(decimalNumber, destination, result);
 	}
 
 	result = ReverseString(result);
@@ -91,25 +96,6 @@ string IntToString(int & decimalNumber, int & destination, bool & isMinus)
 	}
 
 	return result;
-}
-
-int Multiplication(int multiplier1, int multiplier2)
-{
-	if ((multiplier1 >= 0) && (multiplier2 >= 0) && (multiplier1 > INT_MAX / multiplier2))
-	{
-		throw ME_OVERFLOW_MULTIPLICATION;
-	}
-	return multiplier1 * multiplier2;
-}
-
-int Power(int radix, int power)
-{
-	int resulPower = 1;
-	for (int i = 1; i <= power; ++i)
-	{
-		resulPower = Multiplication(resulPower, radix);
-	}
-	return resulPower;
 }
 
 void PrintMathErr(MathErr& mathErr)
@@ -138,6 +124,25 @@ int Add(int multiplication, int number)
 		throw ME_OVERFLOW_ADD;
 	}
 	return multiplication + number;
+}
+
+int Multiplication(int multiplier1, int multiplier2)
+{
+	if ((multiplier1 >= 0) && (multiplier2 >= 0) && (multiplier1 > INT_MAX / multiplier2))
+	{
+		throw ME_OVERFLOW_MULTIPLICATION;
+	}
+	return multiplier1 * multiplier2;
+}
+
+int Power(int radix, int power)
+{
+	int resulPower = 1;
+	for (int i = 1; i <= power; ++i)
+	{
+		resulPower = Multiplication(resulPower, radix);
+	}
+	return resulPower;
 }
 
 int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, bool &isMinus)
@@ -175,7 +180,6 @@ int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, 
 		}
 		power -= 1;
 	}
-	
 	return number;
 }
 
