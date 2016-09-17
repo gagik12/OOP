@@ -166,15 +166,13 @@ int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, 
 		{
 			powerResult = Power(radix, power);
 			multiplication = Multiplication(powerResult, digit);
-			number += Add(multiplication, number);
+			number = Add(multiplication, number);
 		}
 		catch (MathErr& mathErr)
 		{
 			PrintMathErr(mathErr);
 			return 1;
 		}
-
-		//number += powerResult * digit;
 		power -= 1;
 	}
 	
