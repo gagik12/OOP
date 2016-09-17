@@ -63,7 +63,7 @@ string ReverseString(string const& result)
 	return reverseString;
 }
 
-void TransferNumbers(int decimalNumber, int destination, string & result)
+void TransferNumbers(int & decimalNumber, int destination, string & result)
 {
 	int number = decimalNumber % destination;
 	if (number >= DECIMAL_RADIX)
@@ -75,8 +75,8 @@ void TransferNumbers(int decimalNumber, int destination, string & result)
 		result += to_string(number);
 	}
 	decimalNumber = decimalNumber / destination;
-}
 
+}
 string IntToString(int & decimalNumber, int & destination, bool & isMinus)
 {
 	string result = "";
@@ -125,7 +125,6 @@ int Add(int multiplication, int number)
 	}
 	return multiplication + number;
 }
-
 int Multiplication(int multiplier1, int multiplier2)
 {
 	if ((multiplier1 >= 0) && (multiplier2 >= 0) && (multiplier1 > INT_MAX / multiplier2))
@@ -144,6 +143,7 @@ int Power(int radix, int power)
 	}
 	return resulPower;
 }
+
 
 int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, bool &isMinus)
 {
@@ -175,6 +175,7 @@ int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, 
 		}
 		catch (MathErr& mathErr)
 		{
+			wasError = true;
 			PrintMathErr(mathErr);
 			return 1;
 		}
