@@ -53,11 +53,19 @@ void ChekDigit(int & digit, int const& radix, bool & wasError)
 	}
 }
 
-string ReverseString(string const& result)
+string ReverseString(string const& result, bool isMinus)
 {
 	string reverseString = "";
+	if (isMinus && (result != "0"))
+	{
+		reverseString += "-";
+	}
 	for (int i = result.length() - 1; i >= 0; --i)
 	{
+		if (result[i] == '-') 
+		{
+			continue;
+		}
 		reverseString += result[i];
 	}
 	return reverseString;
@@ -75,8 +83,8 @@ void TransferNumbers(int & decimalNumber, int destination, string & result)
 		result += to_string(number);
 	}
 	decimalNumber = decimalNumber / destination;
-
 }
+
 string IntToString(int & decimalNumber, int & destination, bool & isMinus)
 {
 	string result = "";
@@ -89,12 +97,7 @@ string IntToString(int & decimalNumber, int & destination, bool & isMinus)
 		TransferNumbers(decimalNumber, destination, result);
 	}
 
-	result = ReverseString(result);
-	if (isMinus && (result != "0"))
-	{
-		result = "-" + result;
-	}
-
+	result = ReverseString(result, isMinus);
 	return result;
 }
 
@@ -117,32 +120,39 @@ void PrintMathErr(MathErr& mathErr)
 	}
 }
 
-int Add(int multiplication, int number)
+int Add(int multiplication, int number, bool isMinus)
 {
-	if ((multiplication > 0) && (multiplication > INT_MAX - number))
+	if ((!isMinus) && (multiplication > INT_MAX - number))
 	{
 		throw ME_OVERFLOW_ADD;
 	}
+	if (isMinus)
+	{
+		multiplication *= -1;
+		if (multiplication < INT_MIN + number)
+		{
+			throw ME_UNDERFLOW_ADD;
+		}
+		multiplication *= -1;
+	}
 	return multiplication + number;
 }
+
 int Multiplication(int multiplier1, int multiplier2, bool isMinus)
 {
-	/*if (isMinus)
-	{
-		multiplier1 *= -1;
-	}*/
-	if ((multiplier1 >= 0) && (multiplier2 >= 0) && (multiplier1 > INT_MAX / multiplier2))
+	if ((!isMinus) && (multiplier1 > INT_MAX / multiplier2))
 	{
 		throw ME_OVERFLOW_MULTIPLICATION;
-	}
-	/*if ((multiplier1 <= 0) && (multiplier1 < INT_MIN / multiplier2))
-	{
-		throw ME_UNDERFLOW_MULTIPLICATION;
 	}
 	if (isMinus)
 	{
 		multiplier1 *= -1;
-	}*/
+		if (multiplier1 < INT_MIN / multiplier2)
+		{
+			throw ME_UNDERFLOW_MULTIPLICATION;
+		}
+		multiplier1 *= -1;
+	}
 	return multiplier1 * multiplier2;
 }
 
@@ -183,7 +193,7 @@ int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, 
 		{
 			powerResult = Power(radix, power, isMinus);
 			multiplication = Multiplication(powerResult, digit, isMinus);
-			number = Add(multiplication, number);
+			number = Add(multiplication, number, isMinus);
 		}
 		catch (MathErr& mathErr)
 		{
