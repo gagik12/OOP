@@ -125,21 +125,33 @@ int Add(int multiplication, int number)
 	}
 	return multiplication + number;
 }
-int Multiplication(int multiplier1, int multiplier2)
+int Multiplication(int multiplier1, int multiplier2, bool isMinus)
 {
+	/*if (isMinus)
+	{
+		multiplier1 *= -1;
+	}*/
 	if ((multiplier1 >= 0) && (multiplier2 >= 0) && (multiplier1 > INT_MAX / multiplier2))
 	{
 		throw ME_OVERFLOW_MULTIPLICATION;
 	}
+	/*if ((multiplier1 <= 0) && (multiplier1 < INT_MIN / multiplier2))
+	{
+		throw ME_UNDERFLOW_MULTIPLICATION;
+	}
+	if (isMinus)
+	{
+		multiplier1 *= -1;
+	}*/
 	return multiplier1 * multiplier2;
 }
 
-int Power(int radix, int power)
+int Power(int radix, int power, bool isMinus)
 {
 	int resulPower = 1;
 	for (int i = 1; i <= power; ++i)
 	{
-		resulPower = Multiplication(resulPower, radix);
+		resulPower = Multiplication(resulPower, radix, isMinus);
 	}
 	return resulPower;
 }
@@ -169,8 +181,8 @@ int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, 
 
 		try
 		{
-			powerResult = Power(radix, power);
-			multiplication = Multiplication(powerResult, digit);
+			powerResult = Power(radix, power, isMinus);
+			multiplication = Multiplication(powerResult, digit, isMinus);
 			number = Add(multiplication, number);
 		}
 		catch (MathErr& mathErr)
