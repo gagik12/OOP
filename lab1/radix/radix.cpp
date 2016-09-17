@@ -8,10 +8,12 @@ static const int MAX_RADIX = 35;
 static const int MIN_RADIX = 2;
 static const int DECIMAL_RADIX = 10;
 
-enum MathErr 
-{ 
-	ME_OVERFLOW, 
-	ME_UNDERFLOW
+enum MathErr
+{
+	ME_OVERFLOW_ADD,
+	ME_OVERFLOW_MULTIPLICATION,
+	ME_UNDERFLOW_ADD,
+	ME_UNDERFLOW_MULTIPLICATION
 };
 
 bool CheckIntervalRadix(int const& source, int const& destination)
@@ -91,44 +93,50 @@ string IntToString(int & decimalNumber, int & destination, bool & isMinus)
 	return result;
 }
 
-/*int OverflowMultiplication(int pow, int digit, bool & wasError, bool & isMinus)
+int Multiplication(int multiplier1, int multiplier2)
 {
-	if (pow > INT_MAX / digit)
+	if ((multiplier1 >= 0) && (multiplier2 >= 0) && (multiplier1 > INT_MAX / multiplier2))
 	{
-		wasError = true;
-		throw ME_OVERFLOW;
-		cout << "Overflow multiplication\n";
-		return 0;
+		throw ME_OVERFLOW_MULTIPLICATION;
 	}
-	return digit * pow;
+	return multiplier1 * multiplier2;
 }
-
-int OverflowAdd(int multiplication, int number, bool & wasError, bool & isMinus)
-{
-	if (multiplication > INT_MAX - number)
-	{
-		wasError = true;
-		cout << "Overflow add!!!\n";
-		return 0;
-	}
-	return number + multiplication;
-}*/
 
 int Power(int radix, int power)
 {
 	int resulPower = 1;
 	for (int i = 1; i <= power; ++i)
 	{
-		resulPower *= radix;
+		resulPower = Multiplication(resulPower, radix);
 	}
 	return resulPower;
 }
 
+void PrintMathErr(MathErr& mathErr)
+{
+	switch (mathErr)
+	{
+	case 0:
+		std::cout << "ME_OVERFLOW_ADD\n";
+		break;
+	case 1:
+		std::cout << "ME_OVERFLOW_MULTIPLICATION\n";
+		break;
+	case 2:
+		std::cout << "ME_UNDERFLOW_ADD\n";
+		break;
+	case 3:
+		std::cout << "ME_UNDERFLOW_MULTIPLICATION\n";
+		break;
+	}
+
+}
 int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, bool &isMinus)
 {
 	int number = 0;
 	int digit = 0;
 	int multiplication = 0;
+	int powerResult = 0;
 	int power = str.length() - 1;
 	for (int i = 0; i != str.length(); i++)
 	{
@@ -144,7 +152,18 @@ int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, 
 		{
 			return 1;
 		}
-		number += Power(radix, power) * digit;
+
+		try
+		{
+			powerResult = Power(radix, power);
+		}
+		catch (MathErr& mathErr)
+		{
+			PrintMathErr(mathErr);
+			return 1;
+		}
+
+		number += powerResult * digit;
 		power -= 1;
 	}
 	
