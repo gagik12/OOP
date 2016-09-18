@@ -5,7 +5,18 @@ using namespace std;
 
 void PackFile(ifstream & inputFile, ofstream & outputFile)
 {
-
+	char readChar, saveChar;
+	int countChar = 1;
+	while (!inputFile.eof())
+	{
+		inputFile.get(saveChar);
+		while (inputFile.get(readChar) && (saveChar == readChar))
+		{
+			++countChar;
+		}
+		outputFile << countChar << saveChar;
+		countChar = 1;
+	}
 }
 
 void UnpackFile(ifstream & inputFile, ofstream & outputFile)
@@ -25,18 +36,19 @@ int main(int argc, char *argv[])
 	ifstream inputFile(argv[2]);
 	if (!inputFile.is_open())
 	{
-		cout << "Failed to open " << argv[1] << " for reading\n";
+		cout << "Failed to open " << argv[2] << " for reading\n";
 		return 1;
 	}
 
 	ofstream outputFile(argv[3]);
 	if (!outputFile.is_open())
 	{
-		cout << "Failed to open " << argv[2] << " for writing\n";
+		cout << "Failed to open " << argv[3] << " for writing\n";
 		return 1;
 	}
 
-	if (argv[1] == "pack")
+	string mode = argv[1];
+	if (mode == "pack")
 	{
 		PackFile(inputFile, outputFile);
 	}
