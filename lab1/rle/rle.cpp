@@ -8,9 +8,13 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 	char readChar, saveChar;
 	int countChar = 1;
 	inputFile.get(saveChar);
+	if (!inputFile.eof())
+	{
+		cout << saveChar << endl;
+	}
 	while (!inputFile.eof())
 	{
-		while (inputFile.get(readChar) && (saveChar == readChar) && !(countChar == 255))
+		while (inputFile.get(readChar) && (saveChar == readChar) && (countChar != 255))
 		{
 			++countChar;
 		}
@@ -23,7 +27,7 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 			outputFile << countChar << ',';
 			outputFile << '\'' << saveChar << '\'';
 		}
-	    saveChar = readChar;
+		saveChar = readChar;
 		countChar = 1;
 	}
 }
