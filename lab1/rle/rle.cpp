@@ -3,6 +3,17 @@
 
 using namespace std;
 
+void SaveChar(ifstream & inputFile, ofstream & outputFile, int countChar, char readChar)
+{
+	outputFile << countChar << ',';
+	outputFile << '\'' << readChar << '\'';
+	if ((inputFile.peek() != '\n') && (inputFile.peek() != EOF))
+	{
+		outputFile << ',';
+	}
+	countChar = 0;
+}
+
 void PackFile(ifstream & inputFile, ofstream & outputFile)
 {
 	char readChar;
@@ -11,16 +22,17 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 	while (inputFile.get(readChar))
 	{
 		++countChar;
+		if (countChar == 255)
+		{
+			SaveChar(inputFile, outputFile, countChar, readChar);
+			isSave = true;
+			countChar = 0;
+		}
 		while ((readChar != inputFile.peek()) && (!isSave) && (readChar != '\n'))
 		{
-			outputFile << countChar << ',';
-			outputFile << '\'' << readChar << '\'';
-			if ((inputFile.peek() != '\n') && (inputFile.peek() != EOF))
-			{
-				outputFile << ',';
-			}
-			countChar = 0;
+			SaveChar(inputFile, outputFile, countChar, readChar);
 			isSave = true;
+			countChar = 0;
 		}
 		if (readChar == '\n')
 		{
