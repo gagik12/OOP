@@ -5,36 +5,23 @@ using namespace std;
 
 void PackFile(ifstream & inputFile, ofstream & outputFile)
 {
-	char readChar, saveChar;
-	int countChar = 1;
-	inputFile.get(saveChar);
-	if (!inputFile.eof())
+	char readChar;
+	int countChar = 0;
+	while (inputFile.get(readChar) && (readChar != EOF))
 	{
-		cout << saveChar << endl;
-	}
-	while (!inputFile.eof())
-	{
-		while (inputFile.get(readChar) && (saveChar == readChar) && (countChar != 255))
-		{
-			++countChar;
-		}
-		if (saveChar == '\n')
-		{
-			outputFile << "\n";
-		}
-		else
+		++countChar;
+		while (readChar != inputFile.peek())
 		{
 			outputFile << countChar << ',';
-			outputFile << '\'' << saveChar << '\'';
+			outputFile << '\'' << readChar << '\'' << ',';
+			countChar = 0;
+			break;
 		}
-		saveChar = readChar;
-		countChar = 1;
 	}
 }
 
 void UnpackFile(ifstream & inputFile, ofstream & outputFile)
 {
-
 }
 
 int main(int argc, char *argv[])
