@@ -7,14 +7,23 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 {
 	char readChar, saveChar;
 	int countChar = 1;
+	inputFile.get(saveChar);
 	while (!inputFile.eof())
 	{
-		inputFile.get(saveChar);
-		while (inputFile.get(readChar) && (saveChar == readChar))
+		while (inputFile.get(readChar) && (saveChar == readChar) && !(countChar == 255))
 		{
 			++countChar;
 		}
-		outputFile << countChar << saveChar;
+		if (saveChar == '\n')
+		{
+			outputFile << "\n";
+		}
+		else
+		{
+			outputFile << countChar << ',';
+			outputFile << '\'' << saveChar << '\'';
+		}
+	    saveChar = readChar;
 		countChar = 1;
 	}
 }
