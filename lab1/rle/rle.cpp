@@ -18,20 +18,12 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 {
 	char readChar;
 	int countChar = 0;
-	bool isSave = false;
 	while (inputFile.get(readChar))
 	{
 		++countChar;
-		if (countChar == 255)
+		if ((readChar != inputFile.peek()) && (readChar != '\n') || (countChar == 255))
 		{
 			SaveChar(inputFile, outputFile, countChar, readChar);
-			isSave = true;
-			countChar = 0;
-		}
-		while ((readChar != inputFile.peek()) && (!isSave) && (readChar != '\n'))
-		{
-			SaveChar(inputFile, outputFile, countChar, readChar);
-			isSave = true;
 			countChar = 0;
 		}
 		if (readChar == '\n')
@@ -39,7 +31,6 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 			outputFile << '\n';
 			countChar = 0;
 		}
-		isSave = false;
 	}
 }
 
