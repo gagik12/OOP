@@ -16,6 +16,7 @@ enum MathErr
 	ME_UNDERFLOW_MULTIPLICATION
 };
 
+
 bool CheckIntervalRadix(int const& source, int const& destination)
 {
 	return (source >= MIN_RADIX) && (source <= MAX_RADIX) && (destination >= MIN_RADIX) && (destination <= MAX_RADIX);
@@ -60,9 +61,10 @@ string ReverseString(string const& result, bool isMinus)
 	{
 		reverseString += "-";
 	}
-	for (int i = result.length() - 1; i >= 0; --i)
+	int i = static_cast<int>(result.length() - 1);
+	for (i; i >= 0; --i)
 	{
-		if (result[i] == '-') 
+		if (result[i] == '-')
 		{
 			continue;
 		}
@@ -156,10 +158,10 @@ int Multiplication(int multiplier1, int multiplier2, bool isMinus)
 	return multiplier1 * multiplier2;
 }
 
-int Power(int radix, int power, bool isMinus)
+int Power(int radix, size_t power, bool isMinus)
 {
 	int resulPower = 1;
-	for (int i = 1; i <= power; ++i)
+	for (size_t i = 1; i <= power; ++i)
 	{
 		resulPower = Multiplication(resulPower, radix, isMinus);
 	}
@@ -173,7 +175,7 @@ int ConvertToDecimalRadix(string const& str, int const& radix, bool & wasError, 
 	int digit = 0;
 	int multiplication = 0;
 	int powerResult = 0;
-	int power = str.length() - 1;
+	size_t power = str.length() - 1;
 	for (int i = 0; i != str.length(); i++)
 	{
 		if ((i == 0) && (str[i] == '-'))
@@ -244,6 +246,5 @@ int main(int argc, char *argv[])
 			cout << outputNumber;
 		}
 	}
-    return 0;
+	return 0;
 }
-
