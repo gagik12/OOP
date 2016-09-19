@@ -61,8 +61,7 @@ string ReverseString(string const& result, bool isMinus)
 	{
 		reverseString += "-";
 	}
-	int i = static_cast<int>(result.length() - 1);
-	for (i; i >= 0; --i)
+	for (int i = static_cast<int>(result.length() - 1); i >= 0; --i)
 	{
 		if (result[i] == '-')
 		{
