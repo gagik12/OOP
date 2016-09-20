@@ -69,7 +69,6 @@ double Minor(Matrix3x3 const& matrix, int row, int column)
 
 	return pow(-1, (row + column)) * GetDeterminantMatrix2x2(matrixMinor);
 }
-//Matrix3x3 *GetTransposeMatrix(); ВОПРОС
 
 void InverseMatrix(Matrix3x3 const& inputMatrix3x3, Matrix3x3 &inverseMatrix)
 {
