@@ -1,15 +1,16 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
 void SaveChar(ifstream & inputFile, ofstream & outputFile, int countChar, char readChar)
 {
-	outputFile << countChar << ',';
+	outputFile << countChar << ", ";
 	outputFile << '\'' << readChar << '\'';
 	if ((inputFile.peek() != '\n') && (inputFile.peek() != EOF))
 	{
-		outputFile << ',';
+		outputFile << ", ";
 	}
 	countChar = 0;
 }
@@ -36,6 +37,35 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 
 void UnpackFile(ifstream & inputFile, ofstream & outputFile)
 {
+	char readChar;
+	int countChar = 0;
+	string result;
+	while (inputFile.get(readChar))
+	{
+		if (isdigit(readChar))
+		{
+			int digit = readChar - '0';
+			countChar = countChar * 10 + digit;
+		}
+		else
+		{
+			if (readChar == '\'')
+			{
+				inputFile.get(readChar);
+				for (countChar; countChar != 0; --countChar)
+				{
+					result += readChar;
+				}
+				outputFile << result;
+				countChar = 0;
+				inputFile.get(readChar);
+			}
+			else if (readChar == '\n')
+			{
+				outputFile << '\n';
+			}
+		}
+	}
 }
 
 int main(int argc, char *argv[])
@@ -66,7 +96,7 @@ int main(int argc, char *argv[])
 	{
 		PackFile(inputFile, outputFile);
 	}
-	else if (argv[1] == "unpack")
+	else if (mode == "unpack")
 	{
 		UnpackFile(inputFile, outputFile);
 	}
