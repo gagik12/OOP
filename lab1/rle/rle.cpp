@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <string>
 
@@ -39,7 +39,7 @@ void UnpackFile(ifstream & inputFile, ofstream & outputFile)
 {
 	char readChar;
 	int countChar = 0;
-	string result;
+	string result = "";
 	while (inputFile.get(readChar))
 	{
 		if (isdigit(readChar))
@@ -58,6 +58,7 @@ void UnpackFile(ifstream & inputFile, ofstream & outputFile)
 				}
 				outputFile << result;
 				countChar = 0;
+				result = "";
 				inputFile.get(readChar);
 			}
 			else if (readChar == '\n')
