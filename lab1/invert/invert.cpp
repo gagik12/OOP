@@ -1,47 +1,38 @@
 #include <iostream>
 #include <fstream>
+#include "constants.h"
+
+
 
 typedef double Matrix3x3[3][3];
 typedef double Matrix2x2[2][2];
 
 using namespace std;
 
-static const int MAX_MATRIX_SIZE = 3;
-
-void CheckFile(ifstream & file)
+void ReadMatrix(ifstream & inputFile, Matrix3x3 &matrix)
 {
-	if (!file.is_open())
-	{
-		cout << "File is not open";
-		exit(1);
-	}
-}
-
-void ReadMatrix(ifstream & inputFile, Matrix3x3 &matrix3x3, bool & isGoodMatrix)
-{
-	double digit;
 	for (int i = 0; i < MAX_MATRIX_SIZE; i++)
 	{
 		for (int j = 0; j < MAX_MATRIX_SIZE; j++)
 		{
-			inputFile >> digit;
+			inputFile >> matrix[i][j];
 		}
 	}
 }
 
-double GetDeterminantMatrix3x3(Matrix3x3 &matrix3x3)
+double GetDeterminantMatrix3x3(Matrix3x3 const& matrix3x3)
 {
 	return matrix3x3[0][0] * matrix3x3[1][1] * matrix3x3[2][2] - matrix3x3[0][0] * matrix3x3[1][2] * matrix3x3[2][1]
 		- matrix3x3[0][1] * matrix3x3[1][0] * matrix3x3[2][2] + matrix3x3[0][1] * matrix3x3[1][2] * matrix3x3[2][0]
 		+ matrix3x3[0][2] * matrix3x3[1][0] * matrix3x3[2][1] - matrix3x3[0][2] * matrix3x3[1][1] * matrix3x3[2][0];
 }
 
-double GetDeterminantMatrix2x2(Matrix2x2 &matrix2x2)
+double GetDeterminantMatrix2x2(Matrix2x2 const& matrix2x2)
 {
 	return (matrix2x2[0][0] * matrix2x2[1][1]) - (matrix2x2[1][0] * matrix2x2[0][1]);
 }
 
-void OutputMatrix(Matrix3x3 &matrixMinors3x3, double const& determinantMatrix3x3)
+void OutputMatrix(Matrix3x3 const& matrixMinors3x3, double const& determinantMatrix3x3)
 {
 	for (int i = 0; i < MAX_MATRIX_SIZE; i++)
 	{
@@ -53,7 +44,7 @@ void OutputMatrix(Matrix3x3 &matrixMinors3x3, double const& determinantMatrix3x3
 	}
 }
 
-double Minor(Matrix3x3 const& matrix, int & row, int & column)
+double Minor(Matrix3x3 const& matrix, int row, int column)
 {
 	int minorIndexRow = 0, minorIndexColumn = 0;
 	Matrix2x2 matrixMinor;
@@ -93,36 +84,34 @@ void InverseMatrix(Matrix3x3 const& inputMatrix3x3, Matrix3x3 &inverseMatrix)
 
 int main(int argc, char* argv[])
 {
-	if (argc == 2)
-	{
-		string fileName = argv[1];
-		ifstream inputFile(fileName);
-		CheckFile(inputFile);
-
-		Matrix3x3 matrix3x3;
-
-		bool isGoodMatrix = true;
-		ReadMatrix(inputFile, matrix3x3, isGoodMatrix);
-		if (isGoodMatrix)
-		{
-			double determinant = GetDeterminantMatrix3x3(matrix3x3);
-			if (determinant == 0)
-			{
-				cout << "Inverse matrix does not exist";
-				return 1;
-			}
-
-			Matrix3x3 inverseMatrix3x3;
-
-			InverseMatrix(matrix3x3, inverseMatrix3x3);
-			OutputMatrix(inverseMatrix3x3, determinant);
-		}
-	}
-	else
+	if (argc != 2)
 	{
 		cout << "Invalid arguments count\n"
 			<< "Usage: invert.exe <matrix file1>\n";
 		return 1;
 	}
+
+	string fileName = argv[1];
+	ifstream inputFile(fileName);
+	if (!inputFile.is_open())
+	{
+		cout << "File is not open";
+		return 1;
+	}
+
+	Matrix3x3 matrix3x3;
+	ReadMatrix(inputFile, matrix3x3);
+
+	double determinant = GetDeterminantMatrix3x3(matrix3x3);
+	if (determinant == 0)
+	{
+		cout << "Inverse matrix does not exist";
+		return 1;
+	}
+
+	Matrix3x3 inverseMatrix3x3;
+	InverseMatrix(matrix3x3, inverseMatrix3x3);
+
+	OutputMatrix(inverseMatrix3x3, determinant);
 	return 0;
 }
