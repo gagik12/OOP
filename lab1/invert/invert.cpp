@@ -120,7 +120,8 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		cout << "The number of arguments must be equal to two!";
+		cout << "Invalid arguments count\n"
+			<< "Usage: invert.exe <matrix file1>\n";
 		return 1;
 	}
 	return 0;
