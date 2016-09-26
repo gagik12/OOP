@@ -1,0 +1,1 @@
+No path between points A and B!
