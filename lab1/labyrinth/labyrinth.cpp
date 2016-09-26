@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <utility>
 #include <sstream>
 
 static const int SIZE_MAP = 101;
