@@ -1,5 +1,6 @@
 set PROGRAM="%~1"
 
+
 %PROGRAM% 16 10 ff > output\out1.txt
 fc output\out1.txt reference\ref1.txt
 if ERRORLEVEL 1 goto err
