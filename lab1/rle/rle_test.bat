@@ -1,29 +1,43 @@
 set PROGRAM="%~1"
 
-rem pack
-%PROGRAM% pack input\in1.txt  output\out1.txt
-fc output\out1.txt reference\ref1.txt
+%PROGRAM% pack input\in1.txt output\out1PACK.txt
 if ERRORLEVEL 1 goto err
 
-rem pack
-%PROGRAM% pack input\in2.txt  output\out2.txt
-fc output\out2.txt reference\ref2.txt
+%PROGRAM% unpack output\out1PACK.txt output\out1UNPACK.txt
+fc input\in1.txt output\out1UNPACK.txt
 if ERRORLEVEL 1 goto err
 
-rem pack
-%PROGRAM% pack input\in3.txt  output\out3.txt
-fc output\out3.txt reference\ref3.txt
+
+
+rem 255 identical characters
+%PROGRAM% pack input\in2.txt output\out2PACK.txt
 if ERRORLEVEL 1 goto err
 
-rem unpack
-%PROGRAM% unpack input\in4.txt  output\out4.txt
-fc output\out4.txt reference\ref4.txt
+%PROGRAM% unpack output\out2PACK.txt output\out2UNPACK.txt
+fc input\in2.txt output\out2UNPACK.txt
 if ERRORLEVEL 1 goto err
 
-rem unpack
-%PROGRAM% unpack input\in5.txt  output\out5.txt
-fc output\out5.txt reference\ref5.txt
+
+
+rem empty file
+%PROGRAM% pack input\in3.txt output\out3PACK.txt
 if ERRORLEVEL 1 goto err
+
+%PROGRAM% unpack output\out3PACK.txt output\out3UNPACK.txt
+fc input\in3.txt output\out3UNPACK.txt
+if ERRORLEVEL 1 goto err
+
+
+
+rem 256 identical characters
+%PROGRAM% pack input\in4.txt output\out4PACK.txt
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% unpack output\out4PACK.txt output\out4UNPACK.txt
+fc input\in4.txt output\out4UNPACK.txt
+if ERRORLEVEL 1 goto err
+
+
 
 echo Program testing succeeded
 exit 0

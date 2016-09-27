@@ -10,6 +10,10 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 	int countChar = 0;
 	while (!inputFile.eof())
 	{
+		if (inputFile.peek() == EOF)
+		{
+			break;
+		}
 		inputFile.read((char*)&ch, sizeof(char));
 		++countChar;
 		if ((ch != (char)inputFile.peek()) || (countChar == 255))
@@ -27,16 +31,16 @@ void UnpackFile(ifstream & inputFile, ofstream & outputFile)
 	char value;
 	while (!inputFile.eof())
 	{
+		if (inputFile.peek() == EOF)
+		{
+			break;
+		}
 		inputFile.read((char*)&value, sizeof(char));
 		inputFile.read((char*)&ch, sizeof(char));
 		int digit = unsigned char(value);
 		for (int i = 0; i < digit; ++i)
 		{
 			outputFile << ch;
-		}
-		if (inputFile.peek() == EOF)
-		{
-			break;
 		}
 	}
 }
@@ -45,8 +49,10 @@ int main(int argc, char *argv[])
 {
 	if (argc != 4)
 	{
-		cout << "Invalid arguments count\n"
-			<< "Usage: rle.exe unpack <input file> <output file>\n";
+		cout << "Invalid arguments count\n";
+		cout << "Usage: rle.exe pack <input file> <output file>\n";
+		cout << "Or\n";
+		cout << "Usage: rle.exe unpack <input file> <output file>\n";
 		return 1;
 	}
 
