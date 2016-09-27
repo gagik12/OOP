@@ -4,8 +4,6 @@
 
 using namespace std;
 
-
-
 void PackFile(ifstream & inputFile, ofstream & outputFile)
 {
 	char ch;
@@ -31,10 +29,6 @@ void UnpackFile(ifstream & inputFile, ofstream & outputFile)
 	{
 		inputFile.read((char*)&value, sizeof(char));
 		inputFile.read((char*)&ch, sizeof(char));
-		if (ch == (char)'h')
-		{
-			cout << "1" << value << endl;
-		}
 		int digit = unsigned char(value);
 		for (int i = 0; i < digit; ++i)
 		{
