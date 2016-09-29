@@ -24,14 +24,8 @@ void UnpackFile(ifstream & inputFile, ofstream & outputFile)
 {
 	char ch;
 	char value;
-	while (!inputFile.eof())
+	while (inputFile.read((char*)&value, sizeof(char)) && inputFile.read((char*)&ch, sizeof(char)))
 	{
-		if (inputFile.peek() == EOF)
-		{
-			break;
-		}
-		inputFile.read((char*)&value, sizeof(char));
-		inputFile.read((char*)&ch, sizeof(char));
 		int count = unsigned char(value);
 		for (int i = 0; i < count; ++i)
 		{
