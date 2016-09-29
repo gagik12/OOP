@@ -8,13 +8,8 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 {
 	char ch;
 	int countChar = 0;
-	while (!inputFile.eof())
+	while (inputFile.read((char*)&ch, sizeof(char)))
 	{
-		if (inputFile.peek() == EOF)
-		{
-			break;
-		}
-		inputFile.read((char*)&ch, sizeof(char));
 		++countChar;
 		if ((ch != (char)inputFile.peek()) || (countChar == 255))
 		{
@@ -37,8 +32,8 @@ void UnpackFile(ifstream & inputFile, ofstream & outputFile)
 		}
 		inputFile.read((char*)&value, sizeof(char));
 		inputFile.read((char*)&ch, sizeof(char));
-		int digit = unsigned char(value);
-		for (int i = 0; i < digit; ++i)
+		int count = unsigned char(value);
+		for (int i = 0; i < count; ++i)
 		{
 			outputFile << ch;
 		}
