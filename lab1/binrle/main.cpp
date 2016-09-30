@@ -11,7 +11,7 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 	while (inputFile.read((char*)&ch, sizeof(char)))
 	{
 		++countChar;
-		if ((ch != (char)inputFile.peek()) || (countChar == 255))
+		if ((ch != (char)inputFile.peek()) || (countChar == 255) || (inputFile.peek() == EOF))
 		{
 			outputFile.write((char*)&countChar, sizeof(char));
 			outputFile.write(&ch, sizeof(char));
@@ -24,7 +24,7 @@ void UnpackFile(ifstream & inputFile, ofstream & outputFile)
 {
 	char ch;
 	char value;
-	while (inputFile.read((char*)&value, sizeof(char)) && inputFile.read((char*)&ch, sizeof(char)))
+	while (inputFile.read((char*)&value, sizeof(value)) && inputFile.read((char*)&ch, sizeof(char)))
 	{
 		int count = unsigned char(value);
 		for (int i = 0; i < count; ++i)
