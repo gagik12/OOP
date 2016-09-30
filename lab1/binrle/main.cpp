@@ -23,10 +23,9 @@ void PackFile(ifstream & inputFile, ofstream & outputFile)
 void UnpackFile(ifstream & inputFile, ofstream & outputFile)
 {
 	char ch;
-	char value;
-	while (inputFile.read((char*)&value, sizeof(value)) && inputFile.read((char*)&ch, sizeof(char)))
+	unsigned char count;
+	while (inputFile.read((char*)&count, sizeof(count)) && inputFile.read((char*)&ch, sizeof(char)))
 	{
-		int count = unsigned char(value);
 		for (int i = 0; i < count; ++i)
 		{
 			outputFile << ch;
