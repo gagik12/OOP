@@ -38,7 +38,7 @@ void OutputMatrix(Matrix3x3 const& matrixMinors3x3, double const& determinantMat
 	{
 		for (int j = 0; j < MAX_MATRIX_SIZE; j++)
 		{
-			printf("%.3f  ", matrixMinors3x3[j][i] / determinantMatrix3x3);
+			cout << fixed << setprecision(3) << matrixMinors3x3[j][i] / determinantMatrix3x3 << " ";
 		}
 		cout << "\n";
 	}
