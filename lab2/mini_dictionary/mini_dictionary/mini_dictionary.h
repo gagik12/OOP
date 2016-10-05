@@ -10,9 +10,9 @@
 
 typedef std::map<std::string, std::string> Dictionary;
 
-bool IsEmptyFile(std::string fileName);
+bool IsEmptyFile(std::string const&fileName);
 Dictionary GetDictionaryFromFile(std::string const&dictionaryFile);
-void ProcessingNewWords(std::string &newWord, Dictionary &dictionary, bool &isChangesInTheDictionary);
-std::string FindTranslation(std::string &inputWord, Dictionary &dictionary);
+void ProcessingNewWords(std::string const&newWord, Dictionary &dictionary, bool &isChangesInTheDictionary);
+std::string FindTranslation(std::string &inputWord, Dictionary const&dictionary);
 void SaveChangesInFile(Dictionary const& dictionary, std::string const& dictionaryFileName);
 void StartTranslation(Dictionary &dictionary, std::string const&dictionaryFileName);

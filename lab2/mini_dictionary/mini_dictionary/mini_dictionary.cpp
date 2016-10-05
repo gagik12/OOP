@@ -6,7 +6,7 @@ using namespace boost;
 
 static const string EXIT_DICTIONARY = "...";
 
-bool IsEmptyFile(string fileName)
+bool IsEmptyFile(string const&fileName)
 {
 	ifstream file(fileName);
 	return file.peek() == ifstream::traits_type::eof();
@@ -29,7 +29,7 @@ Dictionary GetDictionaryFromFile(string const&dictionaryFile)
 	return dictionary;
 }
 
-void ProcessingNewWords(string &newWord, Dictionary &dictionary, bool &isChangesInTheDictionary)
+void ProcessingNewWords(string const&newWord, Dictionary &dictionary, bool &isChangesInTheDictionary)
 {
 	cout << ">";
 	string translationNewWord;
@@ -46,7 +46,7 @@ void ProcessingNewWords(string &newWord, Dictionary &dictionary, bool &isChanges
 	}
 }
 
-string FindTranslation(string &inputWord, Dictionary &dictionary)
+string FindTranslation(string &inputWord, Dictionary const&dictionary)
 {
 	string findWord;
 	to_lower(inputWord);
