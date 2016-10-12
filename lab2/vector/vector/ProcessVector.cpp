@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ProcessVector.h"
 
-std::vector<double> GetNumbers(std::string &inputString)
+std::vector<double> GetNumbers(std::string const& inputString)
 {
 	std::vector<double> numbers;
 	if (!inputString.empty())
@@ -30,9 +30,9 @@ double GetArithmeticalMean(std::vector<double> const& numbers)
 	return sum / count;
 }
 
-void OutputNumber(std::vector<double> const& numbers)
+void OutputNumbers(std::vector<double> const& numbers)
 {
-	std::copy(numbers.begin(), numbers.end(), std::ostream_iterator<double>(std::cout << std::setprecision(3), " "));
+	std::copy(numbers.begin(), numbers.end(), std::ostream_iterator<double>(std::cout , " "));//<< std::setprecision(3)
 }
 
 void ProcessVector(std::vector<double> & numbers)
@@ -40,8 +40,8 @@ void ProcessVector(std::vector<double> & numbers)
 	if (!numbers.empty())
 	{
 		double arithmeticalMean = GetArithmeticalMean(numbers);
-		std::transform(numbers.begin(), numbers.end(), numbers.begin(), [arithmeticalMean](double number) {return  number + arithmeticalMean; });
+		std::transform(numbers.begin(), numbers.end(), numbers.begin(), [arithmeticalMean](double number) { return round((number + arithmeticalMean) * 1000)  / 1000.; });
 		std::sort(numbers.begin(), numbers.end());
-		OutputNumber(numbers);
+		OutputNumbers(numbers);
 	}
 }
