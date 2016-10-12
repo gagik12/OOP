@@ -30,5 +30,22 @@ BOOST_AUTO_TEST_SUITE(GetArithmeticalMean_function)
 		std::vector<double> numbers = GetNumbers(inputString);
 		BOOST_CHECK(GetArithmeticalMean(numbers) == 3);
     }
+BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE(ProcessVector_function)
+   BOOST_AUTO_TEST_CASE(check_the_modified_vector_elements)
+   {
+    	std::string inputString = "1 2 3";
+		std::vector<double> numbers = GetNumbers(inputString);
+		ProcessVector(numbers);
+		BOOST_CHECK(numbers[2] == 5);
+    }
+
+   BOOST_AUTO_TEST_CASE(check_floating_point_numbers)
+   {
+    	std::string inputString = "4 6 2 7";
+		std::vector<double> numbers = GetNumbers(inputString);
+		ProcessVector(numbers);
+		BOOST_CHECK(numbers[2] == 10.75);
+    }
 BOOST_AUTO_TEST_SUITE_END()
