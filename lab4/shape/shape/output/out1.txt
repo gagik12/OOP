@@ -1,0 +1,21 @@
+
+Figure with minimum perimeter:
+Circle: <167, 245>  R = 1  S = 3.14159  P = 6.28319  ColorOutline = #000000  FillColor = #000000
+
+
+The figure with the largest area:
+Triangle:  S = 8250  P = 429.531  ColorOutline = #000000  FillColor = #00b0f0
+
+|SHAPES|
+>Circle: <400, 60>  R = 50  S = 7853.98  P = 314.159  ColorOutline = #ffc100  FillColor = #ffff00
+>Circle: <200, 150>  R = 30  S = 2827.43  P = 188.496  ColorOutline = #000000  FillColor = #00b0f0
+>Line: <215, 195><250, 300>  S = 0  P = 110.68  ColorOutline = #000000
+>Rectangle: <100, 300>  S = 1050  P = 170  ColorOutline = #000000  FillColor = #fcd5b5
+>Rectangle: <180, 300>  S = 1050  P = 170  ColorOutline = #000000  FillColor = #fcd5b5
+>Rectangle: <160, 400>  S = 500  P = 120  ColorOutline = #000000  FillColor = #4f81bd
+>Rectangle: <180, 400>  S = 500  P = 120  ColorOutline = #000000  FillColor = #4f81bd
+>Triangle:  S = 8250  P = 429.531  ColorOutline = #000000  FillColor = #00b0f0
+>Circle: <162.5, 240>  R = 25  S = 1963.5  P = 157.08  ColorOutline = #000000  FillColor = #fcd5b5
+>Circle: <167, 245>  R = 1  S = 3.14159  P = 6.28319  ColorOutline = #000000  FillColor = #000000
+>Circle: <182, 245>  R = 1  S = 3.14159  P = 6.28319  ColorOutline = #000000  FillColor = #000000
+>Line: <175, 250><175, 258>  S = 0  P = 8  ColorOutline = #00b0f0
