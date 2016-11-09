@@ -1,11 +1,5 @@
 set PROGRAM="%~1"
 
-echo Empty file
-%PROGRAM% input\in0.txt > output\out0.txt
-if ERRORLEVEL 1 goto err
-fc /b output\out0.txt reference\ref0.txt
-IF ERRORLEVEL 1 GOTO err
-
 echo search the maximum area and minimum perimeter
 %PROGRAM% input\in1.txt > output\out1.txt
 if ERRORLEVEL 1 goto err
