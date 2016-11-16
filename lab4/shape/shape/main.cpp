@@ -1,7 +1,4 @@
 #include "stdafx.h"
-#include "Point.h"
-#include "LineSegment.h"
-#include "Color.h"
 #include "Control.h"
 
 using namespace std;

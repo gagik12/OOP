@@ -9,7 +9,6 @@
 
 class IShape;
 
-// Íàñëåäîâàíèå îò boost::noncopyable - ÿâíûé ñïîñîá çàïðåòèòü êîïèðîâàíèå è ïðèñâàèâàíèå ýêçåìïëÿðîâ êëàññà
 class CRemoteControl : boost::noncopyable
 {
 public:
@@ -21,7 +20,6 @@ private:
     bool CreateCircle(std::istream & args);
     bool CreateRectangle(std::istream & args);
     bool CreateTriangle(std::istream & args);
-
     std::vector<std::string> GetTokens(std::string const& shapeSpecification) const;
 private:
     typedef std::map<std::string, std::function<bool(std::istream & args)>> ActionMap;

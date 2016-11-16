@@ -2,8 +2,10 @@
 #include "Triangle.h"
 #include "SolidShape.h"
 #include "Point.h"
+
 CTriangle::CTriangle(Point const& firstVertex, Point const& secondVertex, Point const& thirdVertex, std::string const& outlineColor, std::string const& fillColor)
-    :m_fillColor(fillColor),
+    :ISolidShape("Triangle"),
+    m_fillColor(fillColor),
     m_outlineColor(outlineColor)
 {
     m_vertices.push_back(firstVertex);
@@ -59,14 +61,8 @@ double CTriangle::GetPerimeter() const
         GetSideLength(m_vertices[2], m_vertices[0]);
 };
 
-std::string CTriangle::ToString() const
+void CTriangle::AppendProperties(std::ostream & strm) const
 {
-    std::ostringstream strm;
-    strm << "Triangle:"
-        << "  S = " << GetArea()
-        << "  P = " << GetPerimeter()
-        << "  ColorOutline = " << GetOutlineColor()
-        << "  FillColor = " << GetFillColor();
-    return strm.str();
-};
+    strm << "  FillColor = " << GetFillColor();
+}
 

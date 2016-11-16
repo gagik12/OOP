@@ -3,7 +3,8 @@
 #include "SolidShape.h"
 #include "Point.h"
 CRectangle::CRectangle(Point const& leftTop, double width, double height, std::string const& outlineColor, std::string const& fillColor)
-    :m_leftTop(leftTop),
+    :ISolidShape("Rectangle"), 
+    m_leftTop(leftTop),
     m_height(height),
     m_width(width),
     m_fillColor(fillColor),
@@ -53,15 +54,9 @@ double CRectangle::GetPerimeter() const
     return 2 * (m_width + m_height);
 };
 
-std::string CRectangle::ToString() const
+void CRectangle::AppendProperties(std::ostream & strm) const
 {
-    std::ostringstream strm;
-    strm << "Rectangle: "
-        << "<" << m_leftTop.x << ", " << m_leftTop.y << ">"
-        << "  S = " << GetArea()
-        << "  P = " << GetPerimeter()
-        << "  ColorOutline = " << GetOutlineColor()
+    strm << "  Width = " << m_width
+        << "  Height = " << m_height
         << "  FillColor = " << GetFillColor();
-    return strm.str();
-};
-
+}
