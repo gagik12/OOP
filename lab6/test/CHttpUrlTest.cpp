@@ -11,8 +11,40 @@ void ExpectException(Fn && fn, std::string const& expectedDescription)
     });
 }
 
+void VerifyUrl(CHttpUrl url,
+    std::string const& urlStr,
+    Protocol protocol,
+    std::string const& domain,
+    std::string const& document,
+    unsigned short port)
+{
+    BOOST_CHECK(url.GetProtocol() == protocol);
+    BOOST_CHECK_EQUAL(url.GetDomain(), domain);
+    BOOST_CHECK_EQUAL(url.GetDocument(), document);
+    BOOST_CHECK_EQUAL(url.GetPort(), port);
+    BOOST_CHECK_EQUAL(url.GetUrl(), urlStr);
+}
+
 
 BOOST_AUTO_TEST_SUITE(CHttpURL)
+
+    BOOST_AUTO_TEST_SUITE(ParseUrl)
+        BOOST_AUTO_TEST_CASE(can_parse_url)
+        {
+            {
+                std::string url = "https://mysite.com/page.php?id=100";
+                VerifyUrl(CHttpUrl(url), url, Protocol::HTTPS, "mysite.com", "/page.php?id=100", 443);
+            }
+
+            {
+                VerifyUrl(CHttpUrl("vk.com", "/id132524"), "http://vk.com/id132524", Protocol::HTTP, "vk.com", "/id132524", 80);
+            }
+
+            {
+                VerifyUrl(CHttpUrl("vk.com", "/id132524", Protocol::HTTPS, 2425), "https://vk.com:2425/id132524", Protocol::HTTPS, "vk.com", "/id132524", 2425);
+            }
+        }
+    BOOST_AUTO_TEST_SUITE_END()
 
     BOOST_AUTO_TEST_SUITE(ParseProtocol)
         BOOST_AUTO_TEST_CASE(can_throw_an_exception)
