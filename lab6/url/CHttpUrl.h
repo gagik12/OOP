@@ -19,6 +19,7 @@ public:
 
     std::string GetUrl() const;
     Protocol GetProtocol() const;
+    std::string ToStringProtocol() const;
     std::string GetDomain() const;
     unsigned short GetPort() const;
     std::string GetDocument() const;
@@ -35,7 +36,6 @@ private:
     std::string ParseDomain(std::string & urlRef) const;
 
     std::string ToStringPort() const;
-    std::string ToStringProtocol() const;
     unsigned short ParsePort(std::string & urlRef) const;
 
     void ValidateDocument(std::string const& document) const;

@@ -51,7 +51,7 @@ std::string CHttpUrl::GetDocument() const
 
 std::string CHttpUrl::GetUrl() const
 {
-    return ToStringProtocol() + m_domain + ToStringPort() + m_document;
+    return ToStringProtocol() + "://" + m_domain + ToStringPort() + m_document;
 }
 
 std::string CHttpUrl::ToStringPort() const
@@ -65,11 +65,11 @@ std::string CHttpUrl::ToStringProtocol() const
     std::string result;
     if (m_protocol == Protocol::HTTP)
     {
-        result = "http://";
+        result = "http";
     }
     else if (m_protocol == Protocol::HTTPS)
     {
-        result = "https://";
+        result = "https";
     }
     return result;
 }
